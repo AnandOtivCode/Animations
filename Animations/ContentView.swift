@@ -10,49 +10,99 @@ import SwiftUI
 
 
 struct ContentView: View {
-    @State private var enabled = false
-
+    
+    let letters = Array("Hello SwiftUI")
+        @State private var enabled = false
+        @State private var dragAmount = CGSize.zero
+    
     
     
     var body: some View {
-        
-        
-        Button("Tap Me") {
-            enabled.toggle()
+           HStack(spacing: 0) {
+               ForEach(0..<letters.count, id: \.self) { num in
+                   Text(String(letters[num]))
+                       .padding(5)
+                       .font(.title)
+                       .background(enabled ? .blue : .red)
+                       .offset(dragAmount)
+                       .animation(.linear.delay(Double(num) / 20), value: dragAmount)
+               }
+           }
+           .gesture(
+               DragGesture()
+                   .onChanged { dragAmount = $0.translation }
+                   .onEnded { _ in
+                       dragAmount = .zero
+                       enabled.toggle()
+                   }
+           )
+       }
 
-        }
-        .frame(width: 200, height: 200)
-        .background(enabled ? .blue : .red)
-        .animation(nil, value: enabled)
-        .clipShape(.rect(cornerRadius: enabled ? 60 : 0))
-        //.animation(.default, value: enabled)
-        //.background(.blue)
-        .foregroundStyle(.white)
-        .clipShape(.rect(cornerRadius: enabled ? 60 : 0))
-        .animation(.default, value: enabled)
-
-
-
-        
-        
-        
-        //        Button("Tap Me") {
-//            // do nothing
-//        }
-//        .background(.blue)
-//        .frame(width: 200, height: 200)
-//        .foregroundStyle(.white)
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
+//    var body: some View {
+//        
+//        
+//        
+////        LinearGradient(colors: [.yellow, .red], startPoint: .topLeading, endPoint: .bottomTrailing)
+////            .frame(width: 300, height: 200)
+////            .clipShape(.rect(cornerRadius: 10))
+////            .offset(dragAmount)
+////            .gesture(
+////                DragGesture()
+////                    .onChanged { dragAmount = $0.translation }
+////                    .onEnded { _ in
+////                        withAnimation(.bouncy) {
+////                            dragAmount = .zero
+////                        }
+////                    }
+////            )
+////            //.animation(.bouncy, value: dragAmount)
+//
+//
+//    }
+//
+//    
+//    
+//    
+////    @State private var enabled = false
+////    var body: some View {
+////        
+////        
+////        Button("Tap Me") {
+////            enabled.toggle()
+////
+////        }
+////        .frame(width: 200, height: 200)
+////        .background(enabled ? .blue : .red)
+////        .animation(nil, value: enabled)
+////        .clipShape(.rect(cornerRadius: enabled ? 60 : 0))
+////        //.animation(.default, value: enabled)
+////        //.background(.blue)
+////        .foregroundStyle(.white)
+////        .clipShape(.rect(cornerRadius: enabled ? 60 : 0))
+////        .animation(.default, value: enabled)
+////
+////
+////
+////        
+////        
+////        
+////        //        Button("Tap Me") {
+//////            // do nothing
+//////        }
+//////        .background(.blue)
+//////        .frame(width: 200, height: 200)
+//////        .foregroundStyle(.white)
+////        
+////        
+////        
+////        
+////        
+////        
+////        
+////        
+////        
+////        
+////    }
 
     
     
